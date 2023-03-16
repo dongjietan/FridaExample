@@ -42,7 +42,7 @@ def printMessage(message,data):
     else:
         print(message)
 
-process = frida.get_remote_device().attach('apptobehook') #进程名
+process = frida.get_remote_device().attach('com.example.apptobehook') #进程名
 script = process.create_script(jscode)
 script.on('message',printMessage)
 script.load()
