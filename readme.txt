@@ -3,6 +3,9 @@ pip install frida-tools==1.3.2
 卸载tools
 pip uninstall frida-tools
 
+查看cpu架构:
+adb shell getprop ro.product.cpu.abi
+
 https://github.com/frida/frida/releases
 下载对应版本，比如：frida-server-12.4.6-android-arm
 改名:frida-server.xz
@@ -21,6 +24,7 @@ frida-ps -U
 
 如果出现“frida.ServerNotRunningError: unable to connect to remote frida-server”的错误，试试端口转发：
 adb forward tcp:27042 tcp:27042
+adb forward tcp:27043 tcp:27043
 
 2.关闭frida-server
 ps | grep frida-server
@@ -28,6 +32,12 @@ kill -9 pid
 
 3.删除
 rm -R frida*
+
+
+4.测试
+frida-ps -U 查看正在运行的进程可以用
+frida-ps -Ua 列出运行中的程序
+frida-ps -Uai 列出安装的程序
 
 
 
