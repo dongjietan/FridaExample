@@ -40,7 +40,8 @@ frida-ps -Ua 列出运行中的程序
 frida-ps -Uai 列出安装的程序
 
 
-
+  0x7f07cfa82000
+000000000000F7F0
 
 
 adb pull /data/data/com.example.apptobehook/lib/libhello.so /Users/jayce/Desktop/test
