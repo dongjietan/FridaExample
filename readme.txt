@@ -39,9 +39,62 @@ frida-ps -U 查看正在运行的进程可以用
 frida-ps -Ua 列出运行中的程序
 frida-ps -Uai 列出安装的程序
 
+Memory.readByteArray(args[0],256) 读取 const char *， 然后传递给send(message[, data])的第二个参数data
+Memory.readUtf8String(args[0])
+Memory.readCString(args[2])
+
+如何将c中的字符串转成js string?
+console.log('onLeave GetStringUTFChars:', ptr(retval).readCString())
+
+function getjstring(jstr) {
+        return Java.vm.getEnv().getStringUtfChars(jstr, null).readCString();
+    }
+let cstring = Memory.allocUtf8String("xiaoweigege");
+
+send(retval.toInt32()); // 转到10 进制显示内容
+
+写文件
+function write_data() {
+    const file = new File('/sdcard/reg.dat', 'w');
+    file.write('EoPAoY62@ElRD');
+    file.flush();
+    file.close()
+
+}
+
+把C函数定义为NativaFunction来写文件
+// hook libc.so 的方式来写文件
+function write_data_native() {
+    // 读取lic的导出函数地址
+    const addr_fopen = Module.findExportByName('libc.so', 'fopen');
+    const addr_fputs = Module.findExportByName('libc.so', 'fputs');
+    const addr_fclose = Module.findExportByName('libc.so', 'fclose');
+
+    console.log('fopen:', addr_fopen, 'fputs', addr_fputs, 'fclose', addr_fclose);
+    // 构建函数
+    const fopen = new NativeFunction(addr_fopen, 'pointer', ['pointer', 'pointer']);
+    const fputs = new NativeFunction(addr_fputs, 'int', ['pointer', 'pointer']);
+    const fclose = new NativeFunction(addr_fclose, 'int', ['pointer']);
+
+    // 申请内存空间
+    let file_name = Memory.allocUtf8String('/sdcard/reg.dat');
+    let model = Memory.allocUtf8String('w+');
+    let data = Memory.allocUtf8String('EoPAoY62@ElRD');
+    let file = fopen(file_name, model);
+    let ret = fputs(data, file);
+    console.log('fputs ret: ', ret);
+    fclose(file);
+
+}
 
 
+直接调用.so
+https://blog.51cto.com/u_15057811/3385898
 
+
+常用方法：
+https://www.buaq.net/go-103009.html
+https://kuizuo.cn/docs/frida-so-hook
 
 
 adb pull /data/data/com.example.apptobehook/lib/libhello.so /Users/jayce/Desktop/test
