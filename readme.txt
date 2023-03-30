@@ -96,6 +96,12 @@ https://blog.51cto.com/u_15057811/3385898
 https://www.buaq.net/go-103009.html
 https://kuizuo.cn/docs/frida-so-hook
 
+操作手册：
+https://github.com/hookmaster/frida-all-in-one
+
+教程：
+https://eternalsakura13.com/2020/07/04/frida/
+
 
 adb pull /data/data/com.example.apptobehook/lib/libhello.so /Users/jayce/Desktop/test
 adb pull /data/data/com.example.apptobehook/lib/libtargetLib.so /Users/jayce/Desktop/test
