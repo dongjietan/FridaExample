@@ -24,8 +24,8 @@ def format_bytes(byte_array):
 
 if __name__ == '__main__':
     device = frida.get_usb_device()
-    process = device.attach("apptobehook")
-    js_code = read_file_all("hook.js")
+    process = device.attach("air.com.PaladinOfMarphaNew")
+    js_code = read_file_all("marpha.js")
     script = process.create_script(js_code)
     script.on('message', on_message)
     script.load()
